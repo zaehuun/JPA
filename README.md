@@ -21,7 +21,9 @@
 - @Access : JPA가 엔티티에 접근하는 방식을 지정, AccessType.FIELD는 private여도 필드에 직접 접근, AccessType.PROPERTY는 접근자를 사용하여 접근 (152p)
 - @org.hibernate.annotations.DynamicUpdate : 전체 필드가 아닌 수정된 데이터만 사용해서 동적으로 UPDATE SQL을 생성
 - @ManyToOne : 이름 그대로 다대일 관계라는 매핑 정보
+- @OneToMany : 일대다 관계라는 매핑 정보, mappedBy 속성은 양방향 매핑일 때 사용하는데 반대쪽 매핑의 필드 이름 값을 주면 된다(연관관계 주인은 사용 x)
 - @JoinColumn : 외래 키를 매핑할 때 사용, name 속성을 통해 매핑할 외래 키 이름을 지정
+- 
 
 
 ## persistence.xml 설정
