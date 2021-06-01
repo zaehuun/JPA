@@ -4,13 +4,24 @@
 - @Entity : 이 클래스를 테이블과 매핑한다고 JPA에게 알림, 엔티티 클래스라 부름, (기본 생성자 필수, [final, enum, interfae, inner 클래스에 사용 불가], 필드에 final 하면 x)
 - @Table : 엔티티 클래스에 매핑할 테이블 정보를 알려줌, name 속성을 통하여 매핑 ex @Table(name="MEMBER")
 - @Id : 엔티티 클래스의 필드를 테이블의 기본 키에 매핑, 식별자 필드로 선언
-- @GeneratedValue : 식별자 값 자동 생성, strategy 속성을 통헤 식별자 생성 전략 선택, ㅅ직접 할당, IDENTITY, SEQUENCE 전략이 존재
-  @GeneratedValue(strategy = GenerationType.IDENTITY), 
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")
+- @GeneratedValue : 식별자 값 자동 생성, strategy 속성을 통헤 식별자 생성 전략 선택, 직접 할당, IDENTITY, SEQUENCE, TABLE, AUTO 전략이 존재
+  @GeneratedValue(strategy = GenerationType.IDENTITY),   
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")   
+  @GeneratedValue(strategy = GenerationType.TABLE, generator = "BOARD_SEQ_GENERATOR")   
+  @GeneratedValue(strategy = GenerationType.AUTO) : 디비 방언에 따라 IDENTITY, SEQUENCE, TABLE 전략 중 하나를 자동 선택,   
+  스키마 자동 생성 기능 사용하면 하이버네이트가 시퀀스나 키 테이블 만들어 준다.
 - @SequenceGenerator : 시퀀스 생성자, name, sequenceName, initialValue, allocationSize 속성 존재
+- @TableGenerator : 키 전용 테이블 생성자, name, table, pkColumnValue, allocationSize 속성 존재
 - @Column : 필드를 컬럼에 매핑, name 속성을 통하여 특정 컬럼에 매핑 가능, nullable 속성으로 null 처리 설정, length 속성으로 문자의 크기 설정
    (매핑 정보가 없는 필드는 필드명을 통해 컬럼명으로 매핑, 대소문자 구분은 DB마다 다름)   
+- @Enumerated : 자바의 enum 타입을 매핑
+- @Temporal : 날짜 타입을 매핑
+- @Lob : BLOB, CLOB 타입을 매핑
+- @Transient : 이 필드는 매핑하지 않는다, 객체에 임시로 어떤 값을 보관하려 할 때 사용
+- @Access : JPA가 엔티티에 접근하는 방식을 지정, AccessType.FIELD는 private여도 필드에 직접 접근, AccessType.PROPERTY는 접근자를 사용하여 접근 (152p)
 - @org.hibernate.annotations.DynamicUpdate : 전체 필드가 아닌 수정된 데이터만 사용해서 동적으로 UPDATE SQL을 생성
+- @ManyToOne : 이름 그대로 다대일 관계라는 매핑 정보
+- @JoinColumn : 외래 키를 매핑할 때 사용, name 속성을 통해 매핑할 외래 키 이름을 지정
 
 
 ## persistence.xml 설정
@@ -69,14 +80,19 @@
 - 기본 키 생성을 디비에 위임하는 전략, 디비가 자동으로 기본 키를 생성해줌
 - 디비에 값을 저장 할 때 기본 키 컬럼을 비워두면 디비가 순서대로 값을 채움
 - 엔티티가 영속 상태가 되려면 식별자가 필요
-- IDENTITY 전략은 엔티티를 디비에 저장해여 식별자를 구할 수 있어서 persist() 호출하는 즉시 INSERT 쿼리가 디비에 전당
+- IDENTITY 전략은 엔티티를 디비에 저장해 식별자를 구할 수 있어서 persist() 호출하는 즉시 INSERT 쿼리가 디비에 전달
 - 즉 이 방법은 쓰기 지연이 동작 x
   
-## SEQUENCE 식별자 생성 전략
-- 내부 동작은 IDENTITY 전략돠 다름
+## SEQUENCE 식별자 생성 전략 (138p)
+- 내부 동작은 IDENTITY 전략과 다름
 - persist() 호출 할 때 디비 시퀀스를 사용해서 식별자를 조회 함
 - 이후에 엔티티에 할당한 후에 엔티티를 영속성 컨텍스트에 저장
 - 그리고 트랜잭션을 커밋하면 플러시가 발생하여 엔티티를 디비에 저장
 - 쓰기 지연이 가능한가(?)
 - IDENTITY는 엔티티를 디비에 저장 후 식별자 조회 후 엔티티 식별자에 할당
+  
+## TABLE 식별자 생성 전략 (141p)
+- 키 생성 전용 테이블을 만들고 여기에 이름과 값으로 사용할 컬럼을 만들어 디비 시퀀스를 흉내내는 전략
+- 어느 디비에서든 적용 가능 하다. (시퀀스 전략은 디비마다 안 될 수도 있음)
+- 테이블 사용한다는 것만 제외하면 SEQUENCE 전략과 내부 동작 방식이 같음
   
