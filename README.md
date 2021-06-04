@@ -4,6 +4,7 @@
 - @Entity : 이 클래스를 테이블과 매핑한다고 JPA에게 알림, 엔티티 클래스라 부름, (기본 생성자 필수, [final, enum, interfae, inner 클래스에 사용 불가], 필드에 final 하면 x)
 - @Table : 엔티티 클래스에 매핑할 테이블 정보를 알려줌, name 속성을 통하여 매핑 ex @Table(name="MEMBER")
 - @Id : 엔티티 클래스의 필드를 테이블의 기본 키에 매핑, 식별자 필드로 선언
+- @IdClass : 식별자 클래스, 복합 기본키를 쓰고 싶을 때 클래스 명 위에 선언, 227p (클래스 생성 안 하고 쓸거면 231p 참고)
 - @GeneratedValue : 식별자 값 자동 생성, strategy 속성을 통헤 식별자 생성 전략 선택, 직접 할당, IDENTITY, SEQUENCE, TABLE, AUTO 전략이 존재
   @GeneratedValue(strategy = GenerationType.IDENTITY),   
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BOARD_SEQ_GENERATOR")   
@@ -22,8 +23,9 @@
 - @org.hibernate.annotations.DynamicUpdate : 전체 필드가 아닌 수정된 데이터만 사용해서 동적으로 UPDATE SQL을 생성
 - @ManyToOne : 이름 그대로 다대일 관계라는 매핑 정보
 - @OneToMany : 일대다 관계라는 매핑 정보, mappedBy 속성은 양방향 매핑일 때 사용하는데 반대쪽 매핑의 필드 이름 값을 주면 된다(연관관계 주인은 사용 x)
+- @ManyToMany : 다대다 관계라는 매핑 정보, 테이블과는 다르게 테이블 3개 필요없이 객체는 객체 2개만으로 다대다 관계 생성 가능
 - @JoinColumn : 외래 키를 매핑할 때 사용, name 속성을 통해 매핑할 외래 키 이름을 지정
-- 
+- @JoinTable : 연결 테이블 매핑, name(연결 테이블 지정), joinColumns와inverseJoinColumns(조인 컬럼 정보 지정)
 
 
 ## persistence.xml 설정
