@@ -26,6 +26,7 @@
 - @ManyToMany : 다대다 관계라는 매핑 정보, 테이블과는 다르게 테이블 3개 필요없이 객체는 객체 2개만으로 다대다 관계 생성 가능
 - @JoinColumn : 외래 키를 매핑할 때 사용, name 속성을 통해 매핑할 외래 키 이름을 지정
 - @JoinTable : 연결 테이블 매핑, name(연결 테이블 지정), joinColumns와inverseJoinColumns(조인 컬럼 정보 지정)
+- @MappedSuperclass : 부모 클래스는 테이블과 매핑하지 않고 부모 클래스를 상속 받는 자식 클래스에게 매핑 정보만 제공하고 싶을 때 사용
 
 
 ## persistence.xml 설정
