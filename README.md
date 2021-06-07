@@ -27,6 +27,9 @@
 - @JoinColumn : 외래 키를 매핑할 때 사용, name 속성을 통해 매핑할 외래 키 이름을 지정
 - @JoinTable : 연결 테이블 매핑, name(연결 테이블 지정), joinColumns와inverseJoinColumns(조인 컬럼 정보 지정)
 - @MappedSuperclass : 부모 클래스는 테이블과 매핑하지 않고 부모 클래스를 상속 받는 자식 클래스에게 매핑 정보만 제공하고 싶을 때 사용
+- @Embeddable : 값 타입을 정의하는 곳에 표시 (응집력과 가독성을 높이기 좋음)
+- @Embedded : 값 타임을 사용하는 곳에 표시 (임베디드 타입이 null이면 매핑한 컬럼 값은 모두 null이 됨)
+- @AttributeOverride : 임베디드 타입에 정의한 매핑정보를 재정의 할 때 사용
 
 
 ## persistence.xml 설정
